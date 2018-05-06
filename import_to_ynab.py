@@ -128,5 +128,6 @@ with open(csv_file, 'r') as f:
 try:
   transactions = ynab.BulkTransactions(transaction_list)
   ynab.ynab.TransactionsApi(api_client).bulk_create_transactions(this_budget, transactions)
+  dialogs.alert("Import Complete")
 except ynab.rest.ApiException as e:
   print("When trying to commit transctions to YNAB: %s\n" % e)
