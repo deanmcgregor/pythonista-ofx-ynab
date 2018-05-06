@@ -1,6 +1,6 @@
 #!python2
-#import appex
-#import dialogs
+import appex
+import dialogs
 import sys
 import csv
 from datetime import datetime
@@ -17,14 +17,13 @@ def get_account(account_name, api_client, budget):
     print("When trying to get accounts, encounted the error %s" % e)
 
 if appex.is_running_extension():
-      csv_file = appex.get_file_path()
+  csv_file = appex.get_file_path()
 else:
   csv_file = sys.argv[1]
 
 key_file = open("key.txt", 'r')
 key = key_file.readline().strip()
 key_file.close()
-
 
 ynab_config = ynab.configuration.Configuration()
 ynab_config.api_key['Authorization'] = key 
@@ -49,6 +48,8 @@ chosen_budget = dialogs.list_dialog(title="Choose which budget to import data in
 
 if chosen_budget is None:
   exit(0)
+  
+this_budget = budgets_dict[chosen_budget]
   
 #Find which account in the budget to import into 
 accounts_response = ynab.AccountsApi(api_client).get_accounts(this_budget)
@@ -83,6 +84,7 @@ with open(csv_file, 'r') as f:
     c = csv.DictReader(f, fieldnames=["Date", "Debit", "Description", "Balance", "Category"])
 
   for record in c:
+    
     #Commbank only has one column to show transactions,
     #ING has two. Below allows for this discrepency
     amount = record["Debit"]
