@@ -174,7 +174,8 @@ for record in ofx.statements[0].transactions:
         break
 
     description = record.memo
-    payee_name = description.split("- ")[0]
+    #YNAB has a max character limit of 50
+    payee_name = (description.split("- ")[0])[:50]
 
     import_id_candidate = "YNAB:"+(str(amount))+":"+date_str
     if import_id_candidate in import_id_table:
