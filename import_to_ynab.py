@@ -198,6 +198,6 @@ for record in ofx.statements[0].transactions:
 try:
   transactions = ynab.BulkTransactions(transaction_list)
   ynab.ynab.TransactionsApi(api_client).bulk_create_transactions(this_budget, transactions)
-  dialogs.alert("Import Complete")
+  dialogs.alert("Import Complete", button1="Ok", hide_cancel_button=True)
 except ynab.rest.ApiException as e:
   print("When trying to commit transctions to YNAB: %s\n" % e)
